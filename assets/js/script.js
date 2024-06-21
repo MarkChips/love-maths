@@ -40,33 +40,35 @@ function runGame(gameType) {
     } else if (gameType === "subtract") {
         displaySubtractQuestion(num1, num2);
     } else if (gameType === "division") {
-        /** Perform modulos on greater number and remove result in order to allow for clean division.*/ 
-        function compositeNumber() {
-            if (num1 !== num2) {
-                if (num1 > num2) {
-                    num1 -= num1 % num2;
-                } else {
-                    num2 -= num2 % num1;
+        /** Returns an array of divisors. */
+        function divisors(integer) {
+            let divisors = [];
+            for (let i = 2; i < integer; i++) {
+                if (integer % i === 0) {
+                    divisors.push(i);
                 }
             }
-        }
-        /** Prevent divide by 1.*/ 
-        function noOnes() {
-            if (num1 === 1) {
-                ++num1;
-            } 
-            if (num2 === 1) {
-                ++num2;
-            }
+            return divisors;
         }
 
-        noOnes();
-        compositeNumber();
-        // Prevent operandi from matching.
-        while (num1 === num2) {
-            num1 = Math.ceil(Math.random()*25);
-            noOnes();
-            compositeNumber();
+        // Picks a random non prime number under 25 to assign num1
+        const nonPrimes = [4,6,8,9,10,12,14,15,16,18,20,21,22,24,25];
+        num1 = nonPrimes[Math.floor(Math.random() * 15)];
+        
+        switch (num1) {
+            case 4:
+                num2 = 2;
+                break;
+            case 9:
+                num2 = 3;
+                break;
+            case 25:
+                num2 = 5;
+                break;
+            default:
+                // Creates an array of all the num1 divisors, and then picks a random index from the array.
+                const result = divisors(num1);
+                num2 = result[Math.floor(Math.random() * result.length)];
         }
 
         displayDivisionQuestion(num1, num2);
@@ -156,7 +158,7 @@ function displayMultiplyQuestion(operand1, operand2) {
 };
 
 function displayDivisionQuestion(operand1, operand2) {
-    document.getElementById('operand1').textContent = operand1 > operand2 ? operand1 : operand2;
-    document.getElementById('operand2').textContent = operand1 < operand2 ? operand1 : operand2;
+    document.getElementById('operand1').textContent = operand1;
+    document.getElementById('operand2').textContent = operand2;
     document.getElementById('operator').textContent = "/";
 }
