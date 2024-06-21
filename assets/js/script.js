@@ -41,7 +41,7 @@ function runGame(gameType) {
         displaySubtractQuestion(num1, num2);
     } else if (gameType === "division") {
         /** Perform modulos on greater number and remove result in order to allow for clean division.*/ 
-        function cleanDivide() {
+        function compositeNumber() {
             if (num1 !== num2) {
                 if (num1 > num2) {
                     num1 -= num1 % num2;
@@ -50,13 +50,25 @@ function runGame(gameType) {
                 }
             }
         }
+        /** Prevent divide by 1.*/ 
+        function noOnes() {
+            if (num1 === 1) {
+                ++num1;
+            } 
+            if (num2 === 1) {
+                ++num2;
+            }
+        }
 
-        cleanDivide();
+        noOnes();
+        compositeNumber();
         // Prevent operandi from matching.
         while (num1 === num2) {
             num1 = Math.ceil(Math.random()*25);
-            cleanDivide();
+            noOnes();
+            compositeNumber();
         }
+
         displayDivisionQuestion(num1, num2);
     }
     else {
