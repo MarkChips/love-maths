@@ -43,7 +43,8 @@ function runGame(gameType) {
         /** Returns an array of divisors. */
         function divisors(integer) {
             let divisors = [];
-            for (let i = 2; i < integer; i++) {
+            const half = integer / 2;
+            for (let i = 2; i <= half; i++) {
                 if (integer % i === 0) {
                     divisors.push(i);
                 }
